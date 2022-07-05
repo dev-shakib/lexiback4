@@ -1,72 +1,37 @@
-import AuthForm, { STATE_LOGIN } from '../components/AuthForm';
-import React from 'react';
+import React, { useState } from 'react';
 import lexlogoImage from '../assets/img/logo/lexlogo.png';
-import { default as ArrowrightIcon } from '../assets/img/logo/rightarrow.svg';
+import ArrowrightIcon from '../assets/img/logo/rightarrow.svg';
 import {
   Media,
-  Card,
   Button,
-  CardHeader,
-  CardBody,
   Col,
   Modal,
   ModalBody,
-  ModalFooter,
-  ModalHeader,
   Row,
   NavLink as BSNavLink,
 } from 'reactstrap';
 import teacherImage from '../assets/img/logo/student.png';
 import studentImage from '../assets/img/logo/teacher.png';
-import student from '../assets/img/logo/teacher.png';
 import alert from '../assets/img/logo/alert.png';
 import helpImg from '../assets/img/logo/help.png';
-import Container from 'reactstrap/lib/Container';
 
-class SplashFormPage extends React.Component {
-  state = {
-    modal: false,
-    modalSt:false,
-    teacheroption:'',
-  };
-  toggle = modalType => name => {
-    if (!modalType) {
-      return this.setState({
-        modal: !this.state.modal,
-        teacheroption: 'teacher',
-        modalSt: false,
-      });
-    }
-    this.setState({
-      [`modal_${modalType}`]: !this.state[`modal_${modalType}`],
-    });
-  };
-  togglest = modalType => name => {
-    if (!modalType) {
-      return this.setState({
-        modal: !this.state.modal,
-        modalSt: true,
-        teacheroption: 'student',
-      });
-    }
-    this.setState({
-      [`modal_${modalType}`]: !this.state[`modal_${modalType}`],
-    });
-  };
-  handleAuthState = authState => {
-    if (authState === STATE_LOGIN) {
-      this.props.history.push('/login');
-    } else {
-      this.props.history.push('/signup');
-    }
-  };
 
-  handleLogoClick = () => {
-    this.props.history.push('/');
-  };
+const SplashFormPage = () => {
+  const [modal, setModal] = useState(false);
+  const [modalSt, setModalSt] = useState(false);
+  const [teacheroption, setTeacheroption] = useState('');
+  
+  const toggle = () => {
+    setModal(!modal);        
+    setTeacheroption('teacher');
 
-  render() {
-    return (
+  };
+  const togglest = () => {  
+    setModal(!modal);        
+    setModalSt(true);
+    setTeacheroption('student');
+  };
+  return (
       <React.Fragment>
         <Row
           className="d-flex justify-content-center align-items-center"
@@ -159,16 +124,17 @@ class SplashFormPage extends React.Component {
                           height: '30px',
                           background: 'rgba(255, 255, 255, 0.2)',
                         }}
-                        onClick={this.toggle()}
+                        onClick={toggle}
                       >
-                        <ArrowrightIcon />
+                        {/* <ArrowrightIcon /> */}
+                        <img src={ArrowrightIcon}  />
                       </Button>
                       <Modal
-                        isOpen={this.state.modal}
-                        toggle={this.toggle()}
+                        isOpen={modal}
+                        toggle={toggle}
                         //className={this.props.className}
                         style={{ borderRadius: '30px', top: '200px'}}
-                      >
+                      >                        
                         <div className="d-flex justify-content-end" >
                           <Media
                             object
@@ -182,7 +148,7 @@ class SplashFormPage extends React.Component {
                             }}
                           />
                         </div>
-                        {/* <div className="d-flex justify-content-center mt-5"
+                        {/* <div className="d-flex justify-content-center mt-5" 
                         style={{background: 'rgba(245, 245, 245, 0.9)',
                         backgroundBlendMode: 'luminosity',
                         backdropFilter: 'blur(81.5485px)',
@@ -203,7 +169,7 @@ class SplashFormPage extends React.Component {
                               height: '24px',
                             }}
                           />
-                        </div>
+                        </div>                          
                           <div style={{textAlign:'center'}}>
                           <Media width='55' height='55' object src={alert} />
                             <Row>
@@ -214,7 +180,7 @@ class SplashFormPage extends React.Component {
                                     fontSize: '20px',
                                   }}
                                 >
-                                  Wanna to get in as a {this.state.teacheroption}?
+                                  Wanna to get in as a {teacheroption}?
                                 </span>
                               </Col>
                             </Row>
@@ -246,15 +212,15 @@ class SplashFormPage extends React.Component {
                                 height: '40px',
                                 background: 'rgba(0, 0, 0, 0.1)',
                               }}
-                              onClick={this.toggle()}
+                              onClick={toggle}
                             >
                               No
                             </Button>
-                            {!this.state.modalSt?
+                            {!modalSt?
                             <a href="/loginform">
                               <Button
                                 className="ml-5 border-0"
-
+                                
                                 style={{ width: '110px', height: '40px'
                               ,background:'#1EB972',
                              fontFamily:'Gilroy-SemiBold',
@@ -266,7 +232,7 @@ class SplashFormPage extends React.Component {
                             </a>:<a href="/stloginform">
                               <Button
                                 className="ml-5 border-0"
-
+                                
                                 style={{ width: '110px', height: '40px'
                               ,background:'#1EB972',
                              fontFamily:'Gilroy-SemiBold',
@@ -376,9 +342,10 @@ class SplashFormPage extends React.Component {
                           height: '30px',
                           background: 'rgba(255, 255, 255, 0.2)',
                         }}
-                        onClick={this.togglest()}
+                        onClick={togglest}
                       >
-                        <ArrowrightIcon />
+                        {/* <ArrowrightIcon /> */}
+                        <img src={ArrowrightIcon}  />
                       </Button>
                     </div>
                   </div>
@@ -405,6 +372,6 @@ class SplashFormPage extends React.Component {
       </React.Fragment>
     );
   }
-}
 
 export default SplashFormPage;
+

@@ -30,12 +30,19 @@ import Select, { components } from 'react-select';
 import starrowImage from '../../assets/img/logo/starrowupanddown.png';
 import helpImg from '../../assets/img/logo/help.png';
 import { red } from '@material-ui/core/colors';
+import api from '../../api/api';
 
 const StLoginFormPage = () => {
   const [modal, setModal] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [checkedA, setCheckedA] = useState(true);
   const [checkedB, setCheckedB] = useState(false);
+  const [userId,setuserId] = useState();
+  const [password,setpassword] = useState();
+  const [email,setemail] = useState();
+  const [born,setborn] = useState(null);
+  const [config,setconfig] = useState(null);
+  const [gender,setgender] = useState(null);
 
   const handleChange = event => {
     setCheckedA(event.target.checked);
@@ -46,6 +53,21 @@ const StLoginFormPage = () => {
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
+  // const handleBorn = (event) => {
+  //   setborn(event, () =>
+  //     console.log(`Option selected:`,born)
+  //   );
+  // };
+  // const handleConfig = (event) => {
+  //   setconfig(event, () =>
+  //     console.log(`Option selected:`,born)
+  //   );
+  // };
+  // const handleGender = (event) => {
+  //   setgender(event, () =>
+  //     console.log(`Option selected:`,born)
+  //   );
+  // };
   const handleMouseDownPassword = event => {
     event.preventDefault();
   };
@@ -70,6 +92,25 @@ const StLoginFormPage = () => {
   // handleLogoClick = () => {
   //   this.props.history.push('/');
   // };
+
+  const registrationFormHandle = (e) => {
+    e.preventDefault();
+    // http.post('/login',{email:email,password:password,userid:userId}).then((res)=>{
+    //   setToken(res.data.user,res.data.access_token);
+    // })
+
+    // api.post('/teacher/register', { user_id: userId, password: password, yob: born, config: config, gender: gender }) 
+    api.post('/student/register', { user_id: userId, password: password, yob: born.value, config: 2, gender: gender.value }).then((res)=>(console.log(res.data))) 
+
+
+  }
+  const onChangeuserId = event => {
+    setuserId(event.target.value);
+    console.log(userId);
+  }
+  const onChangepassword = event => {
+    setpassword(event.target.value);
+  }
 
   const loginbutton = {
     background: 'rgba(255, 255, 255, 0.05)',
@@ -109,10 +150,32 @@ const StLoginFormPage = () => {
     checked: {},
   })(Checkbox);
   const options = [
-    { value: 'SESAT', label: 'SESAT' },
-    { value: 'NORA', label: 'NORA' },
-    { value: 'MIKE', label: 'MIKE' },
+    { value: '0', label: 'MALE' },
+    { value: '1', label: 'FEMALE' },
+
   ];
+
+  
+  const option =()=>{
+    const arr =[]
+    for(let i=1940;i<2080;i++){
+      const b=  {value:i , label:i}
+      
+      //  console.log(b) 
+    }
+    
+  }
+  function test() {
+    var sub_array = [];
+    var super_array = [];
+    for (var i = 2022; i >= 1940; i--) {
+        sub_array.push({value:i , label:i},);
+        // super_array.push(sub_array.slice(0));
+    }
+    return (sub_array);
+}
+
+  console.log("born year",test())
   const customStyles = {
     // dropdownIndicator: base => ({
     //   ...base,
@@ -147,33 +210,39 @@ const StLoginFormPage = () => {
   const MyComponent = () => (
     <div>
       <Select
-        options={options}
+      defaultValue={born}
+        options={test()}
         components={{ DropdownIndicator }}
         placeholder="Born year?"
         // isClearable={true}
         styles={customStyles}
+        onChange={setborn}        
       />
     </div>
   );
   const MyComponentGender = () => (
     <div>
       <Select
+      defaultValue={gender}
         options={options}
         components={{ DropdownIndicator }}
         placeholder="Gender?"
         // isClearable={true}
         styles={customStyles}
+        onChange={setgender}
       />
     </div>
   );
   const MyComponentConfig = () => (
     <div>
       <Select
+      defaultValue={config}
         options={options}
         components={{ DropdownIndicator }}
         placeholder="Select a configuration file"
         // isClearable={true}
         styles={customStyles}
+        onChange={setconfig}
       />
     </div>
   );
@@ -297,18 +366,19 @@ const StLoginFormPage = () => {
                 <span className="d-flex justify-content-center">
                 Please fill up the asking credential to register as a
                 </span>
-                <span className="d-flex justify-content-center">
+                <span className="d-flex justify-content-center">                  
                   new user.
                 </span>
               </span>
               <div className="mt-3 "  >
-                  <Input
+                  <Input                    
                     className="text-white p-2" style={{width:'100%',borderRadius:'10px',height:'38px'
                     ,border: '1.5px solid rgba(255, 255, 255, 0.2)'
                   ,background: 'rgba(255, 255, 255, 0.05)',}}
                     placeholder="User ID"
+                    onChange={onChangeuserId}
                   ></Input>
-                </div>
+                </div>             
               <div className="mt-3" style={loginbutton}>
                 <Input
                   type={showPassword ? 'text' : 'password'}
@@ -321,7 +391,9 @@ const StLoginFormPage = () => {
                     fontSize: '16px',
                     textAlign: 'center',
                     paddingLeft: 10,
+                    
                   }}
+                  onChange={onChangepassword}
                   endAdornment={
                     <InputAdornment position="end">
                       <IconButton
@@ -351,18 +423,18 @@ const StLoginFormPage = () => {
               <FormControlLabel
                 style={{
                   fontSize: '16px',
-                  color: 'rgba(255, 255, 255, 0.54)',
+                  color: 'rgba(255, 255, 255, 0.54)',                  
                 }}
                 control={
                   <CheckboxWithGreenCheck
                     checked={checkedA}
                     onChange={handleChange}
                     value="checkedA"
-                    color="primary"
+                    color="primary"                    
                   />
                 }
                 label="Save my informations"
-              />
+              />              
               <Button
                 className="form-control"
                 style={{
@@ -371,12 +443,13 @@ const StLoginFormPage = () => {
                   background: '#018FF7',
                   borderWidth: '0px',
                 }}
+                onClick={registrationFormHandle}
               >
                 Register now
               </Button>
             </FormGroup>
             <a href="/stloginform">
-            <Button onClick={toggle}
+            <Button onClick={toggle} 
               className="form-control ml-5 mb-3"
               type="button"
               style={{
@@ -387,10 +460,10 @@ const StLoginFormPage = () => {
                 border: ' 1.5px solid rgba(1, 143, 247, 0.54)',
               }}
             >
-              Already have an account?{' '}
+              Already have an account?{' '} 
               <span style={{ color: '#018FF7' }}>Log in</span>
             </Button>
-            </a>
+            </a>            
           </form>
           <Modal
             isOpen={modal}
@@ -401,16 +474,16 @@ const StLoginFormPage = () => {
             style={{ borderRadius: '30px', top: '100px' }}
           ><ModalHeader className="d-flex justify-content-end border-0 rounded-top p-1"
           style={{background:'#dae2eb'}}
-          >
+          >          
               <Media
                 object
                 src={helpImg}
                 className="rounded-circle"
-                style={{
+                style={{                  
                   height: '24px',
                 }}
               />
-            </ModalHeader>
+            </ModalHeader>           
             <ModalBody
               style={{
                 background: '#dae2eb',
@@ -458,7 +531,7 @@ const StLoginFormPage = () => {
                     fontFamily: 'Gilroy-SemiBold',
                     fontSize: '20px',
                     color: '#757575',
-                    width:'100%',
+                    width:'100%',                                       
                     background: 'rgba(0, 0, 0, 0.1)',
                   }}
                   onClick={toggle}
@@ -470,7 +543,7 @@ const StLoginFormPage = () => {
                 <a href="/stregform">
                   <Button
                     className="border-0"
-                    style={{
+                    style={{                      
                       background: '#018FF7',
                       fontFamily: 'Gilroy-SemiBold',
                       fontSize: '20px',
