@@ -11,6 +11,7 @@ import { withStyles } from '@material-ui/core/styles';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import alert from '../../assets/img/logo/alert.png';
+import axios from 'axios'
 import {
   Form,
   Media,
@@ -100,7 +101,7 @@ const StLoginFormPage = () => {
     // })
 
     // api.post('/teacher/register', { user_id: userId, password: password, yob: born, config: config, gender: gender }) 
-    api.post('/student/register', { user_id: userId, password: password, yob: born.value, config: 2, gender: gender.value }).then((res)=>(console.log(res.data))) 
+    axios.post('/student/register', { user_id: userId, password: password, yob: born.value, config: 2, gender: gender.value }).then((res)=>(console.log(res.data))) 
 
 
   }

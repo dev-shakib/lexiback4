@@ -18,7 +18,7 @@ import {
 // import AuthUser from '../components/AuthUser';
 import { Form, FormGroup } from 'reactstrap';
 import { Input } from '@material-ui/core';
-
+import axios from 'axios'
 import { otpdatas } from '../redux/action/Actions'
 import api from '../api/api';
 import { Link } from 'react-router-dom';
@@ -45,7 +45,7 @@ const Otpregfun = () => {
     //   setToken(res.data.user,res.data.access_token);
     // })
 
-    api.post('/teacher/verify-otp',{user_id:otpdataa.user_id,email: otpdataa.email, password:otpdataa.password, otp: otpdataa.otp, confirm_otp:otp})
+    axios.post('/teacher/verify-otp',{user_id:otpdataa.user_id,email: otpdataa.email, password:otpdataa.password, otp: otpdataa.otp, confirm_otp:otp})
 
     // .then((res)=>
 

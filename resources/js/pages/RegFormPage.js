@@ -1,5 +1,6 @@
 import AuthForm, { STATE_LOGIN } from '../components/AuthForm';
 import Api from '../api/api'
+import axios from 'axios'
 import React, { useState,createContext, useEffect } from 'react';
 import {
   Media,
@@ -42,9 +43,12 @@ const LoginFormPage = () => {
   const [checkedA,setCheckedA] = useState(true);
   const [checkedB,setCheckedB] = useState(false);
   const [userId,setuserId] = useState();
+  console.log(userId)
   const [dataa,setdata] = useState([]);
   const [password,setpassword] = useState();
+  console.log(password)
   const [email,setemail] = useState();
+  console.log(email)
   // const {http,setToken,setData} = Api();
   const dispatch = useDispatch();
   // const history = useHistory();
@@ -91,10 +95,9 @@ const LoginFormPage = () => {
     //   setToken(res.data.user,res.data.access_token);
     // })
 
-    Api.post('/teacher/register',{email:email,password:password,user_id:userId}).then((res)=>
-
-
-    {dispatch(otpdatas(res.data))})
+    // Api.post('/teacher/register',{email:email,password:password,user_id:userId}).then((res)=>{dispatch(otpdatas(res.data))})
+     axios.post('/teacher/register',{email:email,password:password,user_id:userId}).then((res)=>{dispatch(otpdatas(res.data))})
+    // {dispatch(otpdatas(res.data))})
 
 
 
@@ -112,6 +115,7 @@ const LoginFormPage = () => {
       setuserId(event.target.value);
       console.log(userId);
     }
+    
     const onChangepassword = event => {
       setpassword(event.target.value);
     }
@@ -355,6 +359,8 @@ const LoginFormPage = () => {
                     ,border: '1.5px solid rgba(255, 255, 255, 0.2)'
                   ,background: 'rgba(255, 255, 255, 0.05)',}}
                     placeholder="User ID"
+                    onChange={onChangeuserId}
+
                   ></Input>
                 </div>
                 <div className="mt-3" style={loginbutton}>
@@ -370,6 +376,7 @@ const LoginFormPage = () => {
                       textAlign: 'center',
                       paddingLeft: 10,
                     }}
+                    onChange={onChangepassword}
                     endAdornment={
                       <InputAdornment position="end">
                         <IconButton
@@ -392,6 +399,7 @@ const LoginFormPage = () => {
                     style={{ height: '45px' }}
                     className="text-white p-2"
                     placeholder="Email"
+                    onChange={onChangeemail}
                   ></Input>
                 </div>
                 <FormControlLabel

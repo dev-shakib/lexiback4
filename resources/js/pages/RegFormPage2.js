@@ -392,7 +392,7 @@ class LoginFormPage extends React.Component {
               fontSize: '16px',
             }}
           >
-            ©2022 <span style={{ color: '#F1B02D' }}>Lexismat</span>. All Rights
+            ©2022fdfdfdfds <span style={{ color: '#F1B02D' }}>Lexismat</span>. All Rights
             Reserved
           </span>
         </Row>
